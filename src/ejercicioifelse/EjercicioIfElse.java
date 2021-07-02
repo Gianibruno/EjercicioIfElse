@@ -5,6 +5,8 @@
  */
 package ejercicioifelse;
 
+import GUI.Principal;
+
 /**
  *
  * @author giani
@@ -22,7 +24,7 @@ public class EjercicioIfElse {
 //            if (cn.esPrimoCircular(i)) {
 //                System.out.println("El numero " + i + " es primo circular");
 //            }
-        GUI.Principal princi=new GUI.Principal();
-        princi.setVisible(true);
+        GUI.Principal principal = new GUI.Principal();
+        principal.setVisible(true);
     }
 }
