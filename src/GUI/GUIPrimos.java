@@ -12,13 +12,15 @@ package GUI;
 public class GUIPrimos extends javax.swing.JInternalFrame {
 
     private Entidades.ControlNumeros cn;
-
+    private final BD.Conexion con;
     /**
      * Creates new form GUIPrimos
+     * @param con
      */
-    public GUIPrimos() {
+    public GUIPrimos(BD.Conexion con) {
         initComponents();
         cn = new Entidades.ControlNumeros();
+        this.con=con;
     }
 
     /**

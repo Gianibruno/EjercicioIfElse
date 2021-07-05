@@ -32,6 +32,7 @@ public class Conexion {
         user = "root";
         pass = "";
         url = "jdbc:mariadb://" + this.ip + ":" + this.port + "/" + this.DBname + "";
+        registrarDriver();
     }
 
     public Conexion(String DBname, String ip, String port, String user, String pass, String url) {
@@ -41,6 +42,7 @@ public class Conexion {
         this.user = user;
         this.pass = pass;
         this.url = "jdbc:mariadb://" + this.ip + ":" + this.port + "/" + this.DBname + "";
+        registrarDriver();
     }
 
     // <editor-fold defaultstate="collapsed" desc=" Metodos Setters y Getters">
@@ -100,6 +102,14 @@ public class Conexion {
         this.conexion = conexion;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     public Exception getEx() {
         return ex;
     }
@@ -110,6 +120,8 @@ public class Conexion {
     //</editor-fold>
 
     public void Conectar() {
+        registrarDriver();
+        this.url = "jdbc:mariadb://" + this.ip + ":" + this.port + "/" + this.DBname + "";
         try {
             conexion = java.sql.DriverManager.getConnection(url + "?useLegacyDatetimeCode=false&serverTimezone=UTC", user, pass);
             System.out.println("Conexion con exito");
@@ -119,6 +131,10 @@ public class Conexion {
             conexion = null;
         }
     }
+    
+    public void actualizarUrl(){
+        this.url = "jdbc:mariadb://" + this.ip + ":" + this.port + "/" + this.DBname + "";
+    }
 
     private void registrarDriver() {
         try {
@@ -126,6 +142,14 @@ public class Conexion {
         } catch (ClassNotFoundException ex) {
             System.out.println(("Error al registrar Driver: " + ex.getMessage()));
             this.setEx(ex);
+        }
+    }
+    public boolean esValida(){
+        try {
+            return (conexion != null) ? conexion.isValid(1000) : false;
+        } catch (java.sql.SQLException ex) {
+            this.setEx(ex);
+            return false;
         }
     }
 

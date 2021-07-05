@@ -5,17 +5,44 @@
  */
 package GUI;
 
+import BD.Conexion;
+import Entidades.ControlNumeros;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author giani
  */
 public class Principal extends javax.swing.JFrame {
 
+    private BD.Conexion con;
+    private ArrayList<Integer> primoscirculares = new ArrayList<>();
+    private Entidades.ControlNumeros cn;
+
     /**
      * Creates new form Principal
      */
     public Principal() {
         initComponents();
+        con = new BD.Conexion();
+        cn = new Entidades.ControlNumeros(con);
+    }
+
+    public Conexion getCon() {
+        return con;
+    }
+
+    public void setCon(Conexion con) {
+        this.con = con;
+    }
+
+    public ControlNumeros getCn() {
+        return cn;
+    }
+
+    public void setCn(ControlNumeros cn) {
+        this.cn = cn;
     }
 
     /**
@@ -27,57 +54,181 @@ public class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        java.awt.Image fondo = new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.jpg")).getImage();
+        escritorio = new javax.swing.JDesktopPane(){
+            public void paintComponent(java.awt.Graphics graficos){
+                graficos.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+        bCon = new javax.swing.JButton();
+        bCompro = new javax.swing.JButton();
+        bVerificar = new javax.swing.JButton();
+        bObtenerPrimos = new javax.swing.JButton();
+        bCargarNumeros = new javax.swing.JButton();
+        lEstatus = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("Conectar a DB");
-
-        jButton3.setText("Comprobar si un numero es primo/circular");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        bCon.setText("Conectar a DB");
+        bCon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                bConActionPerformed(evt);
             }
         });
+
+        bCompro.setText("Comprobar si un numero es primo/circular");
+        bCompro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bComproActionPerformed(evt);
+            }
+        });
+
+        bVerificar.setText("Verificar Conexion");
+        bVerificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bVerificarActionPerformed(evt);
+            }
+        });
+
+        bObtenerPrimos.setText("Obtener los numeros primos circulares");
+        bObtenerPrimos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bObtenerPrimosActionPerformed(evt);
+            }
+        });
+
+        bCargarNumeros.setText("Cargar numeros primos circulares a DB");
+        bCargarNumeros.setEnabled(false);
+        bCargarNumeros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bCargarNumerosActionPerformed(evt);
+            }
+        });
+
+        lEstatus.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
+        lEstatus.setForeground(new java.awt.Color(255, 0, 0));
+        lEstatus.setText("TRABAJANDO...");
+        lEstatus.setVisible(false);
+
+        escritorio.setLayer(bCon, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        escritorio.setLayer(bCompro, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        escritorio.setLayer(bVerificar, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        escritorio.setLayer(bObtenerPrimos, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        escritorio.setLayer(bCargarNumeros, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        escritorio.setLayer(lEstatus, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        javax.swing.GroupLayout escritorioLayout = new javax.swing.GroupLayout(escritorio);
+        escritorio.setLayout(escritorioLayout);
+        escritorioLayout.setHorizontalGroup(
+            escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(escritorioLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(bCompro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(escritorioLayout.createSequentialGroup()
+                        .addComponent(bCon, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(bVerificar))
+                    .addComponent(bObtenerPrimos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bCargarNumeros, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+            .addGroup(escritorioLayout.createSequentialGroup()
+                .addGap(242, 242, 242)
+                .addComponent(lEstatus)
+                .addContainerGap(247, Short.MAX_VALUE))
+        );
+        escritorioLayout.setVerticalGroup(
+            escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(escritorioLayout.createSequentialGroup()
+                .addGap(70, 70, 70)
+                .addGroup(escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bCon)
+                    .addComponent(bVerificar))
+                .addGap(18, 18, 18)
+                .addComponent(bCompro)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
+                .addComponent(bObtenerPrimos)
+                .addGap(73, 73, 73)
+                .addComponent(bCargarNumeros)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(93, 93, 93)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3))
-                .addContainerGap(96, Short.MAX_VALUE))
+            .addComponent(escritorio)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(111, 111, 111)
-                .addComponent(jButton1)
-                .addGap(64, 64, 64)
-                .addComponent(jButton3)
-                .addContainerGap(157, Short.MAX_VALUE))
+            .addComponent(escritorio)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        GUI.GUIPrimos primos=new GUI.GUIPrimos();
-        this.add(primos);
+    private void bComproActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bComproActionPerformed
+        GUI.GUIPrimos primos = new GUI.GUIPrimos(con);
+        escritorio.add(primos);
         primos.setVisible(true);
-    }//GEN-LAST:event_jButton3ActionPerformed
+
+
+    }//GEN-LAST:event_bComproActionPerformed
+
+    private void bConActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bConActionPerformed
+        GUI.ConectarBD conectar = new GUI.ConectarBD(con);
+        escritorio.add(conectar);
+        conectar.setVisible(true);
+    }//GEN-LAST:event_bConActionPerformed
+
+    private void bVerificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bVerificarActionPerformed
+        if (con.getConexion() != null) {
+            JOptionPane.showMessageDialog(this, "¡Conectado!");
+        } else {
+            JOptionPane.showMessageDialog(this, "No hay conexión");
+        }
+    }//GEN-LAST:event_bVerificarActionPerformed
+
+    private void bObtenerPrimosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bObtenerPrimosActionPerformed
+        lEstatus.setVisible(true);
+        JOptionPane.showMessageDialog(this, "Calculando numeros primos circualares, esto puede tomar varios minutos. Por favor, presione OK y espere.");
+        primoscirculares = cn.obtenerPrimosCirculares();
+        if (!primoscirculares.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "¡Numeros primos circulares obtenidos!");
+            lEstatus.setVisible(false);
+            bCargarNumeros.setEnabled(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al obtener numeros.");
+            lEstatus.setVisible(false);
+        }
+    }//GEN-LAST:event_bObtenerPrimosActionPerformed
+
+    private void bCargarNumerosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCargarNumerosActionPerformed
+        lEstatus.setVisible(true);
+        JOptionPane.showMessageDialog(this, "Cargando numeros a la base de datos. Esto puede llevar varios minutos.");
+        lEstatus.setVisible(true);
+        if (cn.cargarNumeros(primoscirculares) == true) {
+            JOptionPane.showMessageDialog(this, "¡Numeros cargados a la base de datos correctamente!");
+            lEstatus.setVisible(false);
+        } else {
+            JOptionPane.showMessageDialog(this, "Ha ocurrido un error :(");
+            lEstatus.setVisible(false);
+        }
+    }//GEN-LAST:event_bCargarNumerosActionPerformed
 
     /**
      * @param args the command line arguments
      */
-  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton bCargarNumeros;
+    private javax.swing.JButton bCompro;
+    private javax.swing.JButton bCon;
+    private javax.swing.JButton bObtenerPrimos;
+    private javax.swing.JButton bVerificar;
+    public javax.swing.JDesktopPane escritorio;
+    private javax.swing.JLabel lEstatus;
     // End of variables declaration//GEN-END:variables
 }
